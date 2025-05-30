@@ -58,21 +58,23 @@ const ProfileCard = styled(Paper)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden',
   borderRadius: theme.shape.borderRadius * 2,
-  transition: theme.transitions.create(['box-shadow', 'transform'], {
+  padding: theme.spacing(4),
+  transformStyle: 'preserve-3d',
+  transition: theme.transitions.create(['transform', 'box-shadow'], {
     duration: theme.transitions.duration.standard,
   }),
+  boxShadow: theme.shadows[4],
   '&:hover': {
-    transform: 'translateY(-8px)',
-    boxShadow: theme.shadows[8],
+    boxShadow: theme.shadows[12],
   },
   '&::before': {
     content: '""',
     position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 4,
-    background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`,
+    inset: -2,
+    background: `conic-gradient(${theme.palette.primary.main}, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
+    filter: 'blur(8px)',
+    animation: 'spin 6s linear infinite',
+    zIndex: -1,
   },
 }));
 
@@ -81,6 +83,7 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [cardStyle, setCardStyle] = useState({});
   const [audio] = useState(new Audio('https://music.163.com/song/media/outer/url?id=2099310789.mp3'));
 
   useEffect(() => {
@@ -129,6 +132,19 @@ function App() {
     if (iframe) {
       iframe.src = `https://gravatar.com/lingbu.card?t=${new Date().getTime()}`;
     }
+  };
+
+  const handleMoveCard = (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left - rect.width / 2;
+    const y = event.clientY - rect.top - rect.height / 2;
+    setCardStyle({
+      transform: `rotateX(${(-y / rect.height) * 10}deg) rotateY(${(x / rect.width) * 10}deg)`,
+    });
+  };
+
+  const handleLeaveCard = () => {
+    setCardStyle({ transform: 'rotateX(0deg) rotateY(0deg)' });
   };
 
   return (
@@ -192,7 +208,12 @@ function App() {
             animation: 'slideInUp 0.8s ease-out 0.2s forwards',
           }}
         >
-          <ProfileCard elevation={3}>
+          <ProfileCard
+            elevation={3}
+            onMouseMove={handleMoveCard}
+            onMouseLeave={handleLeaveCard}
+            sx={cardStyle}
+          >
             {isLoading && (
               <Box
                 sx={{
@@ -260,6 +281,7 @@ function App() {
         </Box>
       </Container>
 
+
       {/* 页脚 */}
       <Box
         component="footer"
@@ -322,6 +344,11 @@ function App() {
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
           50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
       `}</style>
     </Box>
