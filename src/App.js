@@ -11,6 +11,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import FancyCard from './FancyCard';
 import { MusicNote, Pause, Refresh, Error as ErrorIcon } from '@mui/icons-material';
 
 // 自定义样式组件
@@ -260,6 +261,12 @@ function App() {
         </Box>
       </Container>
 
+      <Container sx={{ py: 4 }}>
+        <Box sx={{ maxWidth: 500, mx: 'auto' }}>
+          <FancyCard />
+        </Box>
+      </Container>
+
       {/* 页脚 */}
       <Box
         component="footer"
@@ -290,7 +297,7 @@ function App() {
             fontSize: 13,
             fontWeight: 500,
             '&:hover': {
-              bgcolor: 'primary.light1a',
+              bgcolor: theme.palette.primary.light + '1a',
               color: 'primary.main',
               transform: 'translateY(-2px)',
             },
@@ -322,6 +329,11 @@ function App() {
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
           50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
       `}</style>
     </Box>
