@@ -290,7 +290,7 @@ function App() {
             fontSize: 13,
             fontWeight: 500,
             '&:hover': {
-              bgcolor: 'primary.light1a',
+              bgcolor: theme.palette.primary.light + '1a',
               color: 'primary.main',
               transform: 'translateY(-2px)',
             },
