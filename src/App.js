@@ -11,6 +11,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import FancyCard from './FancyCard';
 import { MusicNote, Pause, Refresh, Error as ErrorIcon } from '@mui/icons-material';
 
 // 自定义样式组件
@@ -280,8 +281,6 @@ function App() {
           </ProfileCard>
         </Box>
       </Container>
-
-
       {/* 页脚 */}
       <Box
         component="footer"
